@@ -48,25 +48,16 @@ pipeline {
 
 				stage('Unit Test') {
 					steps {
-
-						try {
-							sh "mvn clean test"
-						}
-						finally {
-							junit "**/target/surefire-reports/TEST-*.xml"
-						}
+						sh "mvn clean test"
+						junit "**/target/surefire-reports/TEST-*.xml"
 					}
 				}
 
 				stage('Integration Test') {
 					steps {
-						try {
-							//sh "mvn failsafe:integration-test failsafe:verify"
-							sh "exit 0"
-						}
-						finally {
-							print "Teste de integração concluído"
-						}
+						//sh "mvn failsafe:integration-test failsafe:verify"
+						sh "exit 0"
+						print "Teste de integração concluído"
 					}
 				}
         	}
