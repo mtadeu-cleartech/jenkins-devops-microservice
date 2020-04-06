@@ -93,6 +93,17 @@ pipeline {
 
 		*/
 
+		stage('Deploy for develop') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                echo "aguardar input"
+                input message: 'Efetuar Deploy para DEV? (Click "Proceed" to continue)'
+                echo "Proceed true"
+            }
+        }
+
 		stage('Deploy QA') {
 
 			when {
