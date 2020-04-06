@@ -91,7 +91,7 @@ pipeline {
 		stage('Deploy QA') {
 
 			when {
-				(develop|release|master)                 
+				branch  (develop|release|master)                 
             }
         	        
             input {
@@ -109,7 +109,7 @@ pipeline {
 		stage('Deploy Produção') {
 	
 			when {
-				(release|hotfix)             
+				branch (release|hotfix)             
             }
 
             input {
