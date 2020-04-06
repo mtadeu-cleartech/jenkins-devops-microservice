@@ -7,7 +7,7 @@ pipeline {
 		dockerHome = tool 'dockerDefault'
 		mavenHome = tool 'mavenDefault'
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
-
+		PROJECT_ROOT = "."
 		POM_PATH = "${PROJECT_ROOT}/pom.xml"
 		
 		def pom = readMavenPom file:POM_PATH
