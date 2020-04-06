@@ -18,7 +18,7 @@ pipeline {
 	}
 
 	stages {
-		stage('Checkout') {
+		stage('Check Environment') {
 			steps {
 				sh 'mvn --version'
 				sh 'docker version'
@@ -43,19 +43,25 @@ pipeline {
 			}
 		}
 
-
-		stage('Test') {
-			steps {
-				sh "mvn test"
-			}
-		}
-
-		stage('Integration Test') {
-			steps {
-				//sh "mvn failsafe:integration-test failsafe:verify"
-				echo "Integration test escaped"
-			}
-		}
+		stage('Tests') {
+            parallel unit: {
+                try {
+                    sh "mvn clean test"
+                }
+                finally {
+                    junit "**/target/surefire-reports/TEST-*.xml"
+                }
+            },
+            integration: {
+                try {
+					//sh "mvn failsafe:integration-test failsafe:verify"
+                    sh "exit 0"
+                }
+                finally {
+                    print "Teste de integração concluído"
+                }
+            }
+        }
 
 		stage('Package') {
 			steps {
@@ -83,6 +89,10 @@ pipeline {
 		}
 
 		stage('Deploy QA') {
+
+			when {
+				(develop|release.*|hotfix.*)                 
+            }
         	        
             input {
                 message "Efetuar Deploy para QA?"
@@ -98,6 +108,10 @@ pipeline {
 		
 		stage('Deploy Produção') {
 	
+			when {
+				(release.*|hotfix.*)             
+            }
+
             input {
                 message "Efetuar Deploy para Produção?"
                 ok "Sim"
@@ -114,8 +128,9 @@ pipeline {
 
 	post {
 		always {
-			echo 'One way or another, I have finished'
-			deleteDir() /* clean up our workspace */
+			echo 'Finished'
+			
+			//deleteDir() /* clean up our workspace */
 		}
 		success {
 			echo 'I succeeeded!'
