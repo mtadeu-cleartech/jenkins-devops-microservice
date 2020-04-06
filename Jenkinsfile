@@ -37,6 +37,7 @@ pipeline {
 			
 		}
 
+		/*
 		stage('Compile') {
 			steps {
 				sh "mvn clean compile"
@@ -49,7 +50,9 @@ pipeline {
 				stage('Unit Test') {
 					steps {
 						sh "mvn clean test"
-						junit "**/target/surefire-reports/TEST-*.xml"
+						*/
+						//junit "**/target/surefire-reports/TEST-*.xml"
+						/*
 					}
 				}
 
@@ -88,10 +91,12 @@ pipeline {
 			}
 		}
 
+		*/
+
 		stage('Deploy QA') {
 
 			when {
-				branch  (develop)                 
+                branch 'develop'
             }
         	        
             input {
@@ -109,7 +114,7 @@ pipeline {
 		stage('Deploy Produção') {
 	
 			when {
-				branch (release)             
+                branch 'release'
             }
 
             input {
