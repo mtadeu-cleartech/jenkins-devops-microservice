@@ -107,18 +107,13 @@ pipeline {
 		stage('Deploy QA') {
 
 			when {
-                branch 'develop'
+                branch 'master'
             }
         	        
-            input {
-                message "Efetuar Deploy para QA?"
-                ok "Sim"
-                parameters {
-                    string(name: 'DEPLOY', defaultValue: 'Sim', description: 'Confirma o Deploy para QA?')
-                }
-            }
             steps {
-                echo "Deploy confirmado? ${DEPLOY}."
+                echo "aguardar input"
+                input message: 'Efetuar Deploy para QA? (Click "Sim" para continuar)'
+                echo "Proceed true"
             }
         }
 		
