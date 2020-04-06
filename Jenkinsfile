@@ -81,6 +81,53 @@ pipeline {
 				}
 			}
 		}
+
+		stage('Deploy QA') {
+        	        
+            input {
+                message "Efetuar Deploy para QA?"
+                ok "Sim"
+                parameters {
+                    string(name: 'DEPLOY', defaultValue: 'Sim', description: 'Confirma o Deploy para QA?')
+                }
+            }
+            steps {
+                echo "Deploy confirmado? ${DEPLOY}."
+            }
+        }
+		
+		stage('Deploy Produção') {
+	
+            input {
+                message "Efetuar Deploy para Produção?"
+                ok "Sim"
+                parameters {
+                    string(name: 'DEPLOY', defaultValue: 'Sim', description: 'Confirma o Deploy para Produção?')
+                }
+            }
+            steps {
+                echo "Deploy confirmado? ${DEPLOY}."
+            }
+        }
+
+		post {
+			always {
+				echo 'One way or another, I have finished'
+				deleteDir() /* clean up our workspace */
+			}
+			success {
+				echo 'I succeeeded!'
+			}
+			unstable {
+				echo 'I am unstable :/'
+			}
+			failure {
+				echo 'I failed :('
+			}
+			changed {
+				echo 'Things were different before...'
+			}
+		}
 		
 	}
 	
