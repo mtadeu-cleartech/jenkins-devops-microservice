@@ -9,7 +9,7 @@ pipeline {
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 
 		POM_PATH = "${PROJECT_ROOT}/pom.xml"
-		pom = readMavenPom()
+		pom = readMavenPom
 		
 	    ARTIFACT_ID = pom.getArtifactId()
 	    VERSION = pom.getVersion()
