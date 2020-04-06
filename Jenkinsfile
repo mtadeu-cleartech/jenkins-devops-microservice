@@ -44,24 +44,29 @@ pipeline {
 		}
 
 		stage('Tests') {
-            parallel unit: {
-                try {
-                    sh "mvn clean test"
-                }
-                finally {
-                    junit "**/target/surefire-reports/TEST-*.xml"
-                }
-            },
-            integration: {
-                try {
-					//sh "mvn failsafe:integration-test failsafe:verify"
-                    sh "exit 0"
-                }
-                finally {
-                    print "Teste de integração concluído"
-                }
-            }
-        }
+            parallel {
+
+				stage('Unit Test') {
+
+					try {
+						sh "mvn clean test"
+					}
+					finally {
+						junit "**/target/surefire-reports/TEST-*.xml"
+					}
+				}
+
+				stage('Integration Test') {
+					try {
+						//sh "mvn failsafe:integration-test failsafe:verify"
+						sh "exit 0"
+					}
+					finally {
+						print "Teste de integração concluído"
+					}
+				}
+        	}
+		}
 
 		stage('Package') {
 			steps {
