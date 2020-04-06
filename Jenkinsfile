@@ -7,6 +7,14 @@ pipeline {
 		dockerHome = tool 'dockerDefault'
 		mavenHome = tool 'mavenDefault'
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
+
+		POM_PATH = "${PROJECT_ROOT}/pom.xml"
+		
+		def pom = readMavenPom file:POM_PATH
+		
+	    ARTIFACT_ID = pom.getArtifactId()
+	    VERSION = pom.getVersion()
+	    GROUP_ID = pom.getGroupId()
 	}
 
 	stages {
@@ -21,10 +29,15 @@ pipeline {
 				echo "JOB_NAME - $env.JOB_NAME"
 				echo "BUILD_TAG - $env.BUILD_TAG"
 				echo "BUILD_URL - $env.BUILD_URL"
+				echo "POM_PATH - $POM_PATH"
+				echo "ARTIFACT_ID - $ARTIFACT_ID"
+				echo "VERSION - $VERSION"
+				echo "GROUP_ID - $GROUP_ID"
 			}
 			
 		}
 
+		/*
 		stage('Compile') {
 			steps {
 				sh "mvn clean compile"
@@ -69,6 +82,7 @@ pipeline {
 				}
 			}
 		}
+		*/
 	}
 	
 }
