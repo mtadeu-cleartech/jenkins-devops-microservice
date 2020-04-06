@@ -10,7 +10,7 @@ pipeline {
 
 		POM_PATH = "${PROJECT_ROOT}/pom.xml"
 		
-		def pom = readMavenPom file:POM_PATH
+		def pom = readMavenPom
 		
 	    ARTIFACT_ID = pom.getArtifactId()
 	    VERSION = pom.getVersion()
