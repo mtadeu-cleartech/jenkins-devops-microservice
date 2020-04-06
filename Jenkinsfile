@@ -37,7 +37,6 @@ pipeline {
 			
 		}
 
-		/*
 		stage('Compile') {
 			steps {
 				sh "mvn clean compile"
@@ -68,7 +67,7 @@ pipeline {
 		stage('Build Docker Image ') {
 			steps {
 				script {
-					dockerImage = docker.build("matmedeiros/currency-exchange-devops:${env.BUILD_TAG}")
+					dockerImage = docker.build("matmedeiros/currency-exchange-devops:${VERSION}")
 				}
 			}
 		}
@@ -82,7 +81,7 @@ pipeline {
 				}
 			}
 		}
-		*/
+		
 	}
 	
 }
