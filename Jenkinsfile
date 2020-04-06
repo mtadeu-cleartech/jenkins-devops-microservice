@@ -91,7 +91,7 @@ pipeline {
 		stage('Deploy QA') {
 
 			when {
-				branch  (develop|release|master)                 
+				branch  (develop|release|hotfix)                 
             }
         	        
             input {
