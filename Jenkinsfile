@@ -142,7 +142,7 @@ pipeline {
 			echo 'I failed :('
 		}
 		changed {
-			echo 'Things were different before...'
+			echo 'Things were different before... '
 		}
 	}
 	
