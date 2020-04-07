@@ -33,6 +33,7 @@ pipeline {
 				echo "ARTIFACT_ID - $ARTIFACT_ID"
 				echo "VERSION - $VERSION"
 				echo "GROUP_ID - $GROUP_ID"
+				echo "BRANCH_NAME - $env.BRANCH_NAME"
 			}
 			
 		}
