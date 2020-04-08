@@ -108,11 +108,11 @@ pipeline {
 
 		stage('Deploy for develop') {
             when {
-                branch 'develop'
+                branch ('develop' | 'master''
             }
             steps {
                 echo "aguardar input"
-                input message: 'Efetuar Deploy para DEV? (Click "Proceed" to continue)'
+                input message: 'Efetuar Deploy para DEV / Master? (Click "Proceed" to continue)'
                 echo "Proceed true"
             }
         }
