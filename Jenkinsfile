@@ -108,7 +108,7 @@ pipeline {
 
 		stage('Deploy for develop') {
             when {
-                branch ('develop' | 'master''
+                branch ('develop' | 'master')
             }
             steps {
                 echo "aguardar input"
