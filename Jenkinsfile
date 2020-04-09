@@ -106,7 +106,7 @@ pipeline {
 			}
     	}
 
-		stage('Deploy for develop') {
+		stage('Deploy for develop ou master') {
             when {
                 branch 'develop' || 'master'
             }
