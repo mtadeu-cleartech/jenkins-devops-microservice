@@ -97,7 +97,7 @@ pipeline {
 		stage('Deploy QA') {
 
 			when {
-                expression { BRANCH_NAME ==~ /(develop | release\/*  )/ }
+                expression { BRANCH_NAME ==~ /(develop|release).*/ }
             }
         	        
             steps {
