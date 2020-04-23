@@ -94,13 +94,13 @@ pipeline {
 
 		*/
 
-		stage('Example') {
+		stage('Example Master') {
 			steps {
 				script {
 					if (env.BRANCH_NAME == 'master') {
-						echo 'I only execute on the master branch'
+						echo 'É master'
 					} else {
-						echo 'I execute elsewhere'
+						echo 'Não é master'
 					}
 				}
 			}
@@ -108,7 +108,7 @@ pipeline {
 
 		stage('Deploy for develop ou master') {
             when {
-                branch 'develop' || 'master'
+				expression { BRANCH_NAME ==~ /(develop|master)/ }
             }
             steps {
                 echo "aguardar input"
@@ -120,7 +120,7 @@ pipeline {
 		stage('Deploy QA') {
 
 			when {
-                branch 'master'
+                branch 'release'
             }
         	        
             steps {
