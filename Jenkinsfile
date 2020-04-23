@@ -110,7 +110,7 @@ pipeline {
 		stage('Deploy Homologação') {
 
 			when {
-                branch 'release'
+                branch 'release/*'
             }
         	        
             steps {
@@ -123,7 +123,7 @@ pipeline {
 		stage('Deploy Produção') {
 	
 			when {
-                branch 'release'
+                branch 'release/*'
             }
 
             steps {
