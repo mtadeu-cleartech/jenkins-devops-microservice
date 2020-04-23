@@ -94,30 +94,20 @@ pipeline {
 
 		*/
 
-		stage('Example Master') {
-			steps {
-				script {
-					if (env.BRANCH_NAME == 'master') {
-						echo 'É master'
-					} else {
-						echo 'Não é master'
-					}
-				}
-			}
-    	}
+		stage('Deploy QA') {
 
-		stage('Deploy for develop ou master') {
-            when {
-				expression { BRANCH_NAME ==~ /(develop|master)/ }
+			when {
+                expression { BRANCH_NAME ==~ /(develop|release)/ }
             }
+        	        
             steps {
                 echo "aguardar input"
-                input message: 'Efetuar Deploy para DEV / Master? (Click "Proceed" to continue)'
+                input message: 'Efetuar Deploy para QA? (Click "Sim" para continuar)'
                 echo "Proceed true"
             }
         }
 
-		stage('Deploy QA') {
+		stage('Deploy Homologação') {
 
 			when {
                 branch 'release'
@@ -125,7 +115,7 @@ pipeline {
         	        
             steps {
                 echo "aguardar input"
-                input message: 'Efetuar Deploy para QA? (Click "Sim" para continuar)'
+                input message: 'Efetuar Deploy para Homologação? (Click "Sim" para continuar)'
                 echo "Proceed true"
             }
         }
@@ -136,15 +126,10 @@ pipeline {
                 branch 'release'
             }
 
-            input {
-                message "Efetuar Deploy para Produção?"
-                ok "Sim"
-                parameters {
-                    string(name: 'DEPLOY', defaultValue: 'Sim', description: 'Confirma o Deploy para Produção?')
-                }
-            }
             steps {
-                echo "Deploy confirmado? ${DEPLOY}."
+                echo "aguardar input"
+                input message: 'Efetuar Deploy para Produção? (Click "Sim" para continuar)'
+                echo "Proceed true"
             }
         }
 
