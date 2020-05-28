@@ -13,7 +13,7 @@ pipeline {
 		def pom = readMavenPom file:POM_PATH
 		
 	    ARTIFACT_ID = pom.getArtifactId()
-	    VERSION = pom.getVersion()
+	    VERSION = ""
 	    GROUP_ID = pom.getGroupId()
 	}
 
