@@ -38,11 +38,18 @@ pipeline {
 
 				script {
 					def packageJson = readJSON file: './package.json'
+					def versionPack = packageJson['version']
 					echo "props version2: ${packageJson['version']}"
 				}
 				
 			}
 			
+		}
+
+		stage('deploy1') {
+			steps {
+				echo "deploy1 versionPack: ${versionPack}"
+			}
 		}
 
 		/*
