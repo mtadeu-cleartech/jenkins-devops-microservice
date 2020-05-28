@@ -9,6 +9,8 @@ pipeline {
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 		PROJECT_ROOT = "."
 		POM_PATH = "${PROJECT_ROOT}/pom.xml"
+
+		def packageJson = readJSON file: './package.json'
 		
 		def pom = readMavenPom file:POM_PATH
 		
@@ -16,26 +18,8 @@ pipeline {
 	    VERSION = pom.getVersion()
 	    GROUP_ID = pom.getGroupId()
 	}
-	
 
 	stages {
-
-		stage('Read-JSON') {
-			steps {
-				script {
-					def oldJson = '{"branch":{"type-0.2":{"version":"0.2","rc":"1","rel":"1","extras":"1"}}}'
-					def props = readJSON text: oldJson
-					println(props['branch']['type-0.2']['rc'])
-
-					echo "props version: ${props['branch']['type-0.2']['version']}"
-
-					def packageJson = readJSON file: './package.json'
-					echo "props version2: ${packageJson['version']}"
-				}
-			}
-		}
-
-
 
 		stage('Check Environment') {
 			steps {
@@ -54,6 +38,9 @@ pipeline {
 				echo "GROUP_ID - $GROUP_ID"
 				echo "BRANCH_NAME - $env.BRANCH_NAME"
 
+				script {
+					echo "props version2: ${packageJson['version']}"
+				}
 				
 			}
 			
