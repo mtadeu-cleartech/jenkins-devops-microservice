@@ -16,18 +16,22 @@ pipeline {
 	    VERSION = pom.getVersion()
 	    GROUP_ID = pom.getGroupId()
 	}
-
-	stage('Read-JSON') {
-		steps {
-			script {
-				def oldJson = '{"branch":{"type-0.2":{"version":"0.2","rc":"1","rel":"1","extras":"1"}}}'
-				def props = readJSON text: oldJson
-				println(props['branch']['type-0.2']['rc'])
-			}
-		}
-	}
+	
 
 	stages {
+
+		stage('Read-JSON') {
+			steps {
+				script {
+					def oldJson = '{"branch":{"type-0.2":{"version":"0.2","rc":"1","rel":"1","extras":"1"}}}'
+					def props = readJSON text: oldJson
+					println(props['branch']['type-0.2']['rc'])
+				}
+			}
+		}
+
+
+
 		stage('Check Environment') {
 			steps {
 				sh 'mvn --version'
