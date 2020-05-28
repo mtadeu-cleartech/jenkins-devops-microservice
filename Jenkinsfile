@@ -54,7 +54,7 @@ pipeline {
 				echo "deploy1 versionPack: $VERSION"
 				sh 'echo version var ${VERSION}'
 
-				sh "echo version local $VERSION pom: $POM_PATH"
+				sh "echo version local ${VERSION} pom: ${POM_PATH}"
 			}
 		}
 
