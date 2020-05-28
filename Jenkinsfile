@@ -28,6 +28,9 @@ pipeline {
 					println(props['branch']['type-0.2']['rc'])
 
 					echo "props version: ${props['branch']['type-0.2']['version']}"
+
+					def packageJson = readJSON file: 'package.json'
+					echo "props version2: ${props['version']}"
 				}
 			}
 		}
