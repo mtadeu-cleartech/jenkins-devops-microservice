@@ -38,9 +38,8 @@ pipeline {
 
 				script {
 					def packageJson = readJSON file: './package.json'
-					def versionPack = packageJson['version']
-					echo "props version2: ${packageJson['version']}"
-					echo "versionPack: ${versionPack}"
+					$VERSION = packageJson['version']
+					echo "versionPack: $VERSION"
 				}
 				
 			}
