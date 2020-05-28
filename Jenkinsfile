@@ -15,7 +15,7 @@ pipeline {
 		def pom = readMavenPom file:POM_PATH
 		
 	    ARTIFACT_ID = pom.getArtifactId()
-	    VERSION = " "
+	    VERSION = "1.0.0"
 	    GROUP_ID = pom.getGroupId()
 	}
 
@@ -52,6 +52,9 @@ pipeline {
 		stage('deploy1') {
 			steps {
 				echo "deploy1 versionPack: $VERSION"
+				sh 'echo version var ${VERSION}'
+
+				sh 'echo version local $VERSION'
 			}
 		}
 
