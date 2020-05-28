@@ -17,6 +17,18 @@ pipeline {
 	    GROUP_ID = pom.getGroupId()
 	}
 
+	stage('Read-JSON') {
+		steps {
+			script {
+				def oldJson = '{"branch":{"type-0.2":{"version":"0.2","rc":"1","rel":"1","extras":"1"}}}'
+				def props = readJSON text: oldJson
+				println(props['branch']['type-0.2']['rc'])
+				\\ or println(props.'branch'.'type-0.2'.'rc')
+
+			}
+		}
+	}
+
 	stages {
 		stage('Check Environment') {
 			steps {
@@ -34,6 +46,8 @@ pipeline {
 				echo "VERSION - $VERSION"
 				echo "GROUP_ID - $GROUP_ID"
 				echo "BRANCH_NAME - $env.BRANCH_NAME"
+
+				
 			}
 			
 		}
@@ -94,44 +108,10 @@ pipeline {
 
 		*/
 
-		stage('Deploy QA') {
 
-			when {
-                expression { BRANCH_NAME ==~ /(develop|release).*/ }
-            }
-        	        
-            steps {
-                echo "aguardar input"
-                input message: 'Efetuar Deploy para QA? (Click "Sim" para continuar)'
-                echo "Proceed true"
-            }
-        }
 
-		stage('Deploy Homologação') {
-
-			when {
-                branch 'release/*'
-            }
-        	        
-            steps {
-                echo "aguardar input"
-                input message: 'Efetuar Deploy para Homologação? (Click "Sim" para continuar)'
-                echo "Proceed true"
-            }
-        }
 		
-		stage('Deploy Produção') {
-	
-			when {
-                branch 'release/*'
-            }
-
-            steps {
-                echo "aguardar input"
-                input message: 'Efetuar Deploy para Produção? (Click "Sim" para continuar)'
-                echo "Proceed true"
-            }
-        }
+		
 
 	}
 
