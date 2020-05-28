@@ -26,6 +26,8 @@ pipeline {
 					def oldJson = '{"branch":{"type-0.2":{"version":"0.2","rc":"1","rel":"1","extras":"1"}}}'
 					def props = readJSON text: oldJson
 					println(props['branch']['type-0.2']['rc'])
+
+					echo "props version: ${props['branch']['type-0.2']['version']}"
 				}
 			}
 		}
