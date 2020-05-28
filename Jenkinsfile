@@ -41,7 +41,7 @@ pipeline {
 				script {
 					def packageJSON = readJSON file: PACKAGE_JSON_PATH
 					echo "version before: $VERSION"
-					VERSION = packageJson['version']
+					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
 				}
 				
