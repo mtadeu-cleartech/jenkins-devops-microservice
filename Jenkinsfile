@@ -9,8 +9,6 @@ pipeline {
 		PATH = "$dockerHome/bin:$mavenHome/bin:$PATH"
 		PROJECT_ROOT = "."
 		POM_PATH = "${PROJECT_ROOT}/pom.xml"
-
-		def packageJson = readJSON file: './package.json'
 		
 		def pom = readMavenPom file:POM_PATH
 		
@@ -39,6 +37,7 @@ pipeline {
 				echo "BRANCH_NAME - $env.BRANCH_NAME"
 
 				script {
+					def packageJson = readJSON file: './package.json'
 					echo "props version2: ${packageJson['version']}"
 				}
 				
