@@ -49,7 +49,7 @@ pipeline {
 
 		stage('deploy1') {
 			steps {
-				echo "deploy1 versionPack: ${versionPack}"
+				echo "deploy1 versionPack: $VERSION"
 			}
 		}
 
