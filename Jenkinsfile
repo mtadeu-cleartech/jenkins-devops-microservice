@@ -25,6 +25,9 @@ pipeline {
 				echo "VERSION - $VERSION"
 				echo "BRANCH_NAME - $env.BRANCH_NAME"
 
+				echo "ENV - $env"
+
+
 				script {
 					def packageJSON = readJSON file: PACKAGE_JSON_PATH
 					echo "version before: $VERSION"
@@ -119,7 +122,9 @@ pipeline {
 			status: "Pipeline Status",
 			webhookUrl: "${MSTEAMS_HOOK}",
 			color: '00ff00',
-			message: "Test Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME}<br>Pipeline duration: ${currentBuild.durationString}"
+			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME}
+					  <br>Branch - ${$env.BRANCH_NAME}
+					  <br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
 		unstable {
@@ -127,6 +132,14 @@ pipeline {
 		}
 		failure {
 			echo 'I failed :('
+			office365ConnectorSend (
+			status: "Pipeline Status",
+			webhookUrl: "${MSTEAMS_HOOK}",
+			color: 'ff0000',
+			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME}
+					  <br>Branch - ${$env.BRANCH_NAME}
+					  <br>Pipeline duration: ${currentBuild.durationString}"
+			)
 		}
 		changed {
 			echo 'Things were different before... '
