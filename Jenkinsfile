@@ -115,9 +115,6 @@ pipeline {
 			//deleteDir() /* clean up our workspace */
 		}
 		success {
-			echo 'I succeeeded!'
-		}
-		  success {
 			office365ConnectorSend (
 			status: "Pipeline Status",
 			webhookUrl: "${MSTEAMS_HOOK}",
