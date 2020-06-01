@@ -27,17 +27,17 @@ pipeline {
 				echo "VERSION - $VERSION"
 				echo "BRANCH_NAME - $env.BRANCH_NAME"
 
+				GIT_NAME = 'sh git --no-pager show -s --format=\'%an\' '
+				GIT_EMAIL = 'sh git --no-pager show -s --format=\'%ae\' '
+
+				echo "GIT_NAME after: $GIT_NAME"
+				echo "GIT_EMAIL after: $GIT_EMAIL"
+
 				script {
 					def packageJSON = readJSON file: PACKAGE_JSON_PATH
 					echo "version before: $VERSION"
 					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
-
-					GIT_NAME = 'sh git --no-pager show -s --format=\'%an\' '
-					GIT_EMAIL = 'sh git --no-pager show -s --format=\'%ae\' '
-
-					echo "GIT_NAME after: $GIT_NAME"
-					echo "GIT_EMAIL after: $GIT_EMAIL"
 				}
 				
 			}
