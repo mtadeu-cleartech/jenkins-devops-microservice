@@ -148,7 +148,8 @@ pipeline {
 				color: 'ff0000',
 				message: "Build Failure: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
 						   + "<br>Branch - ${env.BRANCH_NAME} " 
-						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
+						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}"
+						   + "<br>Las Commit Message: ${gitInfo('message')}"
 						   + "<br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
@@ -165,6 +166,8 @@ def gitInfo(infoType) {
          case "email": result = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim(); 
 		 	   break;
          case "name": result = sh(returnStdout: true, script: "git --no-pager show -s --format='%an'").trim(); 
+		 	   break;
+		 case "message": result = sh(returnStdout: true, script: "git log -1 --pretty=%B").trim(); 
 		 	   break;
          default: result = "";
       }
