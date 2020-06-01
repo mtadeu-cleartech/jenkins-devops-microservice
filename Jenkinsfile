@@ -5,7 +5,7 @@ pipeline {
 
 	environment {
 		dockerHome = tool 'dockerDefault'
-		
+		MSTEAMS_HOOK = "https://outlook.office.com/webhook/28226550-c439-44f5-89ea-6c842feec9ac@573b4a72-decb-41d8-b48b-5a25b51b31b4/JenkinsCI/70759a0f5304402cb36ff57c27ebf3de/ad108b75-24d3-456b-9b11-5e59132e6768"
 		PROJECT_ROOT = "."
 		PACKAGE_JSON_PATH = "${PROJECT_ROOT}/package.json"
 		VERSION = "0.0.1"
@@ -41,7 +41,7 @@ pipeline {
 				echo "deploy1 versionPack: $VERSION"
 				sh 'echo version var ${VERSION}'
 
-				sh "echo version local ${VERSION} pom: ${POM_PATH}"
+				sh "echo version local ${VERSION}"
 			}
 		}
 
@@ -116,6 +116,14 @@ pipeline {
 		}
 		success {
 			echo 'I succeeeded!'
+		}
+		  success {
+			office365ConnectorSend (
+			status: "Pipeline Status",
+			webhookUrl: "${MSTEAMS_HOOK}",
+			color: '00ff00',
+			message: "Test Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME}<br>Pipeline duration: ${currentBuild.durationString}"
+			)
 		}
 		unstable {
 			echo 'I am unstable :/'
