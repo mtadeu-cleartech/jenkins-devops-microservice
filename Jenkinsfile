@@ -33,15 +33,16 @@ pipeline {
 					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
 
+					gitInfo("email");
 
-					GIT_NAME =  sh(returnStdout: true, script: "git --no-pager show -s --format='%an'").trim()
+					GIT_NAME = gitInfo("name")
 					echo "GIT_NAME after: ${GIT_NAME}"
 
 					GIT_EMAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim()
 					echo "GIT_EMAIL after: $GIT_EMAIL"
 
-					gitInfo("email");
-					gitInfo("name");
+					
+					
 				}
 				
 			}
@@ -154,6 +155,15 @@ pipeline {
 	
 }
 
-def gitInfo(detailType) {
-    echo "detailtype: ${detailType}"
+def gitInfo(infoType) {
+	def result;
+	switch (infoType) {
+         case "email": result = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim(); 
+		 	   break;
+         case "name": result = sh(returnStdout: true, script: "git --no-pager show -s --format='%an'").trim(); 
+		 	   break;
+         default: result = "";
+      }
+    
+	return result;	
 }
