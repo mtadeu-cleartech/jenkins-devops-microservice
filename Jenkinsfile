@@ -45,13 +45,14 @@ pipeline {
 			}
 		}
 
-		/*
+		
 		stage('Compile') {
 			steps {
-				sh "mvn clean compile"
+				sh "mvnnnn clean compile"
 			}
 		}
 
+		/*
 		stage('Tests') {
             parallel {
 
