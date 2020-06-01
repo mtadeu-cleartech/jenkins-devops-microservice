@@ -33,8 +33,8 @@ pipeline {
 					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
 
-					GIT_NAME = "sh git --no-pager show -s --format=\'%an\'"
-					GIT_EMAIL = "sh git --no-pager show -s --format=\'%ae\'"
+					GIT_NAME = 'sh git --no-pager show -s --format=\'%an\' '
+					GIT_EMAIL = 'sh git --no-pager show -s --format=\'%ae\' '
 
 					echo "GIT_NAME after: $GIT_NAME"
 					echo "GIT_EMAIL after: $GIT_EMAIL"
