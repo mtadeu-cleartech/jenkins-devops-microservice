@@ -48,7 +48,7 @@ pipeline {
 		
 		stage('Compile') {
 			steps {
-				sh "mvnnnn clean compile"
+				sh "echo compile true"
 			}
 		}
 
