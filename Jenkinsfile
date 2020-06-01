@@ -34,8 +34,11 @@ pipeline {
 					echo "version after: $VERSION"
 
 
-					def gitCommit =  sh(returnStdout: true, script: "git --no-pager show -s --format='%an'").trim()
-					echo "GIT_NAME after: ${gitCommit}"
+					GIT_NAME =  sh(returnStdout: true, script: "git --no-pager show -s --format='%an'").trim()
+					echo "GIT_NAME after: ${GIT_NAME}"
+
+					GIT_EMAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim()
+					echo "GIT_EMAIL after: $GIT_EMAIL"
 				}
 				
 			}
