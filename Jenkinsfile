@@ -9,8 +9,8 @@ pipeline {
 		PROJECT_ROOT = "."
 		PACKAGE_JSON_PATH = "${PROJECT_ROOT}/package.json"
 		VERSION = "0.0.1"
-		GIT_NAME = "-"
-		GIT_EMAIL = "-"
+		GIT_COMMITER_NAME = "-"
+		GIT_COMMITER_EMAIL = "-"
 	}
 
 	stages {
@@ -33,15 +33,11 @@ pipeline {
 					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
 
-					gitInfo("email");
+					GIT_COMMITER_NAME = gitInfo("name")
+					echo "GIT_COMMITER_NAME: ${GIT_COMMITER_NAME}"
 
-					GIT_NAME = gitInfo("name")
-					echo "GIT_NAME after: ${GIT_NAME}"
-
-					GIT_EMAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim()
-					echo "GIT_EMAIL after: $GIT_EMAIL"
-
-					
+					GIT_COMMITER_EMAIL = gitInfo("email")
+					echo "GIT_COMMITER_EMAIL after: ${GIT_COMMITER_EMAIL}"
 					
 				}
 				
@@ -125,15 +121,21 @@ pipeline {
 	post {
 		always {
 			echo 'Finished'
-			
 			//deleteDir() /* clean up our workspace */
 		}
 		success {
+			echo 'Build Successful :)'
+
+			def messageValue = "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
+						   + "<br>Branch - ${env.BRANCH_NAME} " 
+						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
+						   + "<br>Pipeline duration: ${currentBuild.durationString}" 
+
 			office365ConnectorSend (
-			status: "${currentBuild.currentResult}",
-			webhookUrl: "${MSTEAMS_HOOK}",
-			color: '00ff00',
-			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} <br>Branch - ${env.BRANCH_NAME} <br>Pipeline duration: ${currentBuild.durationString}"
+				status: "${currentBuild.currentResult}",
+				webhookUrl: "${MSTEAMS_HOOK}",
+				color: '00ff00',
+				message: "${messageValue}"
 			)
 		}
 		unstable {
@@ -141,11 +143,17 @@ pipeline {
 		}
 		failure {
 			echo 'I failed :('
+
+			def messageValue = "Build Failure: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
+						   + "<br>Branch - ${env.BRANCH_NAME} " 
+						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
+						   + "<br>Pipeline duration: ${currentBuild.durationString}" 
+
 			office365ConnectorSend (
-			status: "${currentBuild.currentResult}",
-			webhookUrl: "${MSTEAMS_HOOK}",
-			color: 'ff0000',
-			message: "Build failure: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} <br>Branch - ${env.BRANCH_NAME} <br>Pipeline duration: ${currentBuild.durationString}"
+				status: "${currentBuild.currentResult}",
+				webhookUrl: "${MSTEAMS_HOOK}",
+				color: 'ff0000',
+				message: "${messageValue}"
 			)
 		}
 		changed {
