@@ -9,8 +9,6 @@ pipeline {
 		PROJECT_ROOT = "."
 		PACKAGE_JSON_PATH = "${PROJECT_ROOT}/package.json"
 		VERSION = "0.0.1"
-		GIT_COMMITER_NAME = "-"
-		GIT_COMMITER_EMAIL = "-"
 	}
 
 	stages {
@@ -32,13 +30,6 @@ pipeline {
 					echo "version before: $VERSION"
 					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
-
-					GIT_COMMITER_NAME = gitInfo("name")
-					echo "GIT_COMMITER_NAME: ${GIT_COMMITER_NAME}"
-
-					GIT_COMMITER_EMAIL = gitInfo("email")
-					echo "GIT_COMMITER_EMAIL after: ${GIT_COMMITER_EMAIL}"
-					
 				}
 				
 			}
@@ -57,7 +48,7 @@ pipeline {
 		
 		stage('Compile') {
 			steps {
-				sh "mvnnn compile true"
+				echo "compile true"
 			}
 		}
 
@@ -132,7 +123,8 @@ pipeline {
 				color: '00ff00',
 				message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
 						   + "<br>Branch - ${env.BRANCH_NAME} " 
-						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
+						   + "<br>Last Commiter: ${gitInfo('name')} - ${gitInfo('email')}" 
+						   + "<br>Last Commit Message: ${gitInfo('message')}"
 						   + "<br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
@@ -148,8 +140,8 @@ pipeline {
 				color: 'ff0000',
 				message: "Build Failure: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
 						   + "<br>Branch - ${env.BRANCH_NAME} " 
-						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}"
-						   + "<br>Las Commit Message: ${gitInfo('message')}"
+						   + "<br>Last Commiter: ${gitInfo('name')} - ${gitInfo('email')}" 
+						   + "<br>Last Commit Message: ${gitInfo('message')}"
 						   + "<br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
@@ -167,7 +159,7 @@ def gitInfo(infoType) {
 		 	   break;
          case "name": result = sh(returnStdout: true, script: "git --no-pager show -s --format='%an'").trim(); 
 		 	   break;
-		 case "message": result = sh(returnStdout: true, script: "git log -1 --pretty=%B").trim(); 
+		 case "message": result = sh(returnStdout: true, script: "git log -1 --pretty=%cI' - '%h' - '%B").trim(); 
 		 	   break;
          default: result = "";
       }
