@@ -126,16 +126,14 @@ pipeline {
 		success {
 			echo 'Build Successful :)'
 
-			def messageValue = "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
-						   + "<br>Branch - ${env.BRANCH_NAME} " 
-						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
-						   + "<br>Pipeline duration: ${currentBuild.durationString}" 
-
 			office365ConnectorSend (
 				status: "${currentBuild.currentResult}",
 				webhookUrl: "${MSTEAMS_HOOK}",
 				color: '00ff00',
-				message: "${messageValue}"
+				message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
+						   + "<br>Branch - ${env.BRANCH_NAME} " 
+						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
+						   + "<br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
 		unstable {
@@ -144,16 +142,14 @@ pipeline {
 		failure {
 			echo 'I failed :('
 
-			def messageValue = "Build Failure: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
-						   + "<br>Branch - ${env.BRANCH_NAME} " 
-						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
-						   + "<br>Pipeline duration: ${currentBuild.durationString}" 
-
 			office365ConnectorSend (
 				status: "${currentBuild.currentResult}",
 				webhookUrl: "${MSTEAMS_HOOK}",
 				color: 'ff0000',
-				message: "${messageValue}"
+				message: "Build Failure: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} " 
+						   + "<br>Branch - ${env.BRANCH_NAME} " 
+						   + "<br>Last Commiter: ${GIT_COMMITER_NAME} - ${GIT_COMMITER_EMAIL}" 
+						   + "<br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
 		changed {
