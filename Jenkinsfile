@@ -39,6 +39,9 @@ pipeline {
 
 					GIT_EMAIL = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae'").trim()
 					echo "GIT_EMAIL after: $GIT_EMAIL"
+
+					gitInfo("email");
+					gitInfo("name");
 				}
 				
 			}
@@ -149,4 +152,8 @@ pipeline {
 		}
 	}
 	
+}
+
+def gitInfo(detailType) {
+    echo "detailtype: ${detailType}"
 }
