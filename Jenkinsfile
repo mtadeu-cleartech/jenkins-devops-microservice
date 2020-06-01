@@ -25,9 +25,6 @@ pipeline {
 				echo "VERSION - $VERSION"
 				echo "BRANCH_NAME - $env.BRANCH_NAME"
 
-				echo "ENV - $env"
-
-
 				script {
 					def packageJSON = readJSON file: PACKAGE_JSON_PATH
 					echo "version before: $VERSION"
