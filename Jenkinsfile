@@ -9,6 +9,8 @@ pipeline {
 		PROJECT_ROOT = "."
 		PACKAGE_JSON_PATH = "${PROJECT_ROOT}/package.json"
 		VERSION = "0.0.1"
+		GIT_NAME = "-"
+		GIT_EMAIL = "-"
 	}
 
 	stages {
@@ -32,6 +34,12 @@ pipeline {
 					echo "version before: $VERSION"
 					VERSION = packageJSON['version']
 					echo "version after: $VERSION"
+
+					GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
+					GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
+
+					echo "GIT_NAME after: $GIT_NAME"
+					echo "GIT_EMAIL after: $GIT_EMAIL"
 				}
 				
 			}
