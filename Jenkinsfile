@@ -119,7 +119,7 @@ pipeline {
 			status: "Pipeline Status",
 			webhookUrl: "${MSTEAMS_HOOK}",
 			color: '00ff00',
-			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} <br>Branch - ${$env.BRANCH_NAME} <br>Pipeline duration: ${currentBuild.durationString}"
+			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} <br>Branch - ${env.BRANCH_NAME} <br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
 		unstable {
@@ -131,7 +131,7 @@ pipeline {
 			status: "Pipeline Status",
 			webhookUrl: "${MSTEAMS_HOOK}",
 			color: 'ff0000',
-			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} <br>Branch - ${$env.BRANCH_NAME} <br>Pipeline duration: ${currentBuild.durationString}"
+			message: "Build Successful: ${JOB_NAME} - ${BUILD_DISPLAY_NAME} <br>Branch - ${env.BRANCH_NAME} <br>Pipeline duration: ${currentBuild.durationString}"
 			)
 		}
 		changed {
