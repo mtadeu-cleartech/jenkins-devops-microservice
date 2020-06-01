@@ -48,7 +48,7 @@ pipeline {
 		
 		stage('Compile') {
 			steps {
-				sh "echo compile true"
+				sh "mvnnn compile true"
 			}
 		}
 
